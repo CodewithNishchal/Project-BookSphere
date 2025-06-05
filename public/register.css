@@ -1,0 +1,124 @@
+body {
+    height: 100vh;
+    /* width: 100vw; */
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.main_box {
+    height: 75vh;
+    width: 75vw;
+    /* background-color: black; */
+    border: solid black 10px;
+    display: grid;
+    grid-template: 1fr / 1fr 0.75fr;
+}
+
+div.main_login {
+    display: grid;
+    grid-template: 0.1fr 0.3fr 1fr / 1fr;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+label {
+    font-size: 2vh;
+    color: gray;
+    align-self: flex-start;
+    margin-left: 2.5vw;
+    /* margin-bottom: 1vh; */
+}
+
+input {
+    border: 0px;
+    width: 80%;
+    margin-bottom: 2vh;
+    font-size: larger;
+    border-bottom: 1px solid black;
+}
+
+input:focus {
+    outline: none;
+}
+
+input#signIn {
+    align-self: center;
+    border: 0px;
+    height: 5vh;
+    width: 12vw;
+    font-size: larger;
+    color: white;
+    border-radius: 20px;
+    background-color: rgb(22, 20, 20);
+    margin: 3vh 0vh;
+}
+
+div.login_form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: small;
+    padding: 2vh;
+}
+
+div#login_links {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+img {
+    height: 6vh;
+    width: 6vw;
+    margin: 0px;
+    padding: 0px;
+}
+
+a#github {
+    /* background-color: rgba(0, 0, 0, 0.119); */
+}
+
+a#meta {
+    /* background-color: rgba(60, 138, 221, 0.208) ; */
+}
+
+a#final_login {
+    text-decoration: none;
+    color: green;
+    height: 55vh;
+    border-bottom: 1px solid green;
+}
+
+div#login_links a {
+    display: flex;
+    align-items: center;
+    height: 5vh;
+    border-radius: 20px;
+    font-size: larger;
+    text-decoration: none;
+}
+
+div#login_links a:hover {
+    color: green;
+}
+
+p#new_user {
+    margin-top: 5vh;
+}
+
+h5 {
+    color: gray;
+    width: 50%;
+    text-align: center;
+    border-bottom: 1px solid gray;
+    line-height: 0.1em;
+    margin: 10px 0 20px;
+}
+
+h5 span {
+    background: #fff;
+    padding: 0 10px;
+}

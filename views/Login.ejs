@@ -5,33 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="Login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Dancing+Script:wght@400..700&display=swap"
+        rel="stylesheet">
 </head>
 <body>
     <div class="main_box">
         <div class="scroll"></div>
         <div class="main_login">
-            <p>Book-O-Sphere</p>
-            <p>Welcome to Book-O-Sphere</p>
-            <div>
-                <form action="/login" method="POST">
-                    <label for="Username">Username:</label>
-                    <br>
+            <p id="title">Book-O-Sphere</p>
+            <p id="subHeading">Welcomes you</p>
+            <div class="login_form">
+                <form action="/login" method="POST" >
+                    <label for="username">User name or Email:</label>
                     <input type="text" id="username" name="username" required/>
-                    <br>
                     <label for="password">Password</label>
-                    <br> 
                     <input type="password" id="password" name="password" required/>
-                    <br>
-                    <a href="/auth/google" role="button">Sign in with Google</a>
-                    <br>
-                    <a href="/auth/github" role="button">Sign in with GitHub</a>
-                    <br>
-                    <a href="/auth/facebook" role="button">Sign in with facebook</a>
-                    <br>
-                    <input type="submit">
+                    <input type="submit" value="Sign in" id="signIn">
+                    <h5><span>or</span></h5>
+                    <div id="login_links">
+                        <a href="/auth/facebook" role="button" id="meta"><img src="svgs/meta.svg" alt=""></a>
+                        <a href="/auth/github" role="button" id="github"><img src="svgs/github.svg" alt=""></a>
+                    </div>
+                    <p id="new_user">new to Book-o-Sphere? <a href="/register" id="final_login">Sign Up</a></p>
                 </form>
             </div>
-            <p>new here <a href="/">login</a></p>
         </div>
     </div>
 </body>

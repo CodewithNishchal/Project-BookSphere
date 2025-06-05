@@ -1,4 +1,5 @@
 body {
+    background-image: url("/BackGrounds/Book\ Theme\ Background.png");
     height: 100vh;
     /* width: 100vw; */
     margin: 0;
@@ -10,18 +11,150 @@ body {
 div.main_box {
     height: 75vh;
     width: 75vw;
-    /* background-color: black; */
-    border: solid black 10px;
+    background-color: whitesmoke;
+    border-radius: 50px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
     display: grid;
     grid-template: 1fr / 1fr 0.75fr;
 }
 
+div.scroll {
+    background-color: black;
+    border-bottom-left-radius: 50px;
+    border-top-left-radius: 50px;
+}
+
 div.main_login {
     display: grid;
-    grid-template: 0.2fr 0.3fr 1fr 0.3fr / 1fr;
+    grid-template: 0.2fr 0.2fr 1fr / 1fr;
+}
+
+p#title {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-family:"Audiowide",sans-serif; ;
+    justify-content: center;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 4vh;
+    padding: 2vh;
+    margin: 0vh;
+}
+
+p#subHeading {
+    height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5vh;
+        font-family: "Dancing Script",cursive;
 }
 
 label {
-    font-size: 2vh;
+    font-size: 2.2vh;
     color:gray;
+    align-self: flex-start;
+    margin-left: 2.8vw;
+    margin-bottom: 1vh;
 }
+
+input {
+    border: 0px;
+    width: 80%;
+    margin-bottom: 1vh;
+    font-size: 2.5vh;
+    border-bottom: 1px solid black;
+    background-color: transparent;
+}
+
+input#username {
+    margin-bottom: 2vh;
+}
+
+input:focus {
+    outline: none;
+}
+
+input#signIn {
+    align-self: center;
+    border: 0px;
+    height: 5vh;
+    width: 12vw;
+    font-size: larger;
+    color: white;
+    border-radius: 20px;
+    background-color: rgb(22, 20, 20);
+    margin: 3vh 0vh;
+}
+
+div.login_form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: small;
+    padding: 2vh;
+    margin-top: 3vh;
+}
+
+img {
+    height: 5vh;
+    width: 5vw;
+    margin: 0px;
+    padding: 0px;
+}
+
+a#github:hover {
+    /* background-color: rgba(0, 0, 0, 0.119); */
+    background-color: rgba(0, 0, 0, 0.254);
+}
+
+a#meta:hover {
+    /* background-color: rgba(60, 138, 221, 0.208) ; */
+    background-color: rgba(173, 216, 230, 0.55);
+}
+
+a#final_login {
+    text-decoration: none;
+    color: green;
+    border-bottom: 1px solid green;
+}
+
+div#login_links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 5.5vh;
+    width: 3vw;
+    border-radius: 50%;
+    font-size: larger;
+    text-decoration: none;
+}
+
+div#login_links {
+    width: 100%;
+    display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2vw;
+}
+
+p#new_user {
+    margin-top: 5vh;
+    font-size: 2vh;
+}
+
+h5 {
+    color: gray;
+    width: 50%;
+    text-align: center;
+    border-bottom: 1px solid gray;
+    line-height: 0.1em;
+    margin: 10px 0 20px;
+}
+
+h5 span {
+    background: #fff;
+    padding: 0 10px;}

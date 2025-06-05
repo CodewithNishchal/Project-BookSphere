@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="Login.css">
+    <title>Register</title>
+    <link rel="stylesheet" href="register.css">
 </head>
 
 <body>
@@ -14,20 +14,22 @@
         <div class="main_login">
             <p>Book-O-Sphere</p>
             <p>Welcome to Book-O-Sphere</p>
-            <div>
+            <div class="login_form">
                 <form action="/register" method="POST">
                     <label for="Username">Username:</label>
-                    <br>
-                    <input type="text" id="Username" placeholder="Email" name="username" required />
-                    <br>
-                    <label for="password">Password</label>
-                    <br>
-                    <input type="password" id="password" placeholder="Type Password" name="password" required />
-                    <br>
-                    <input type="submit">
+                    <input type="text" id="username" name="username" required />
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required />
+                    <label for="password">re-type Password:</label>
+                    <input type="password" id="Repassword" name="Repassword" required />
+                    <input type="submit" value="Sign in" id="signIn">
+                    <h5><span>or</span></h5>
+                    <div id="login_links">
+                        <a href="/auth/facebook" role="button" id="meta"><img src="svgs/meta.svg" alt=""></a>
+                        <a href="/auth/github" role="button" id="github"><img src="svgs/github.svg" alt=""></a>
+                    </div>
                 </form>
             </div>
-            <p>new here <a href="/">login</a></p>
         </div>
     </div>
 </body>
