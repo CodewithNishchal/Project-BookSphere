@@ -15,13 +15,17 @@
             <p>Book-O-Sphere</p>
             <p>Welcome to Book-O-Sphere</p>
             <div class="login_form">
-                <form action="/register" method="POST">
+                <form action="/register" method="POST" id="main_form">
                     <label for="Username">Username:</label>
-                    <input type="text" id="username" name="username" required />
+                    <input type="text"
+                     id="username" name="username" required />
                     <label for="password">Password:</label>
                     <input type="password" id="password" name="password" required />
                     <label for="password">re-type Password:</label>
                     <input type="password" id="Repassword" name="Repassword" required />
+                    <% if (userTaken) { %>
+                        <script>alert("User Already Taken"); userTaken = false</script>     
+                    <% } %>
                     <input type="submit" value="Sign in" id="signIn">
                     <h5><span>or</span></h5>
                     <div id="login_links">
@@ -34,4 +38,16 @@
     </div>
 </body>
 
+<script>
+    const finalSubmit = (e) => {
+        e.preventDefault()
+        const pass = document.querySelector("#password").value
+        const Repass = document.querySelector("#Repassword").value
+        if(pass !== Repass)
+            alert("both Passwords do not match")
+        else
+            document.querySelector("#main_form").submit()
+    }
+    document.querySelector("#main_form").addEventListener("submit", finalSubmit);
+</script>
 </html>

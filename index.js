@@ -46,7 +46,7 @@ app.get("/", (req,res) => {
 })
 
 app.get("/register", (req, res) => {
-  res.render("Register.ejs")
+  res.render("Register.ejs", {userTaken: false})
 })
 
 app.get("/login", (req, res) => {
@@ -181,7 +181,8 @@ app.post("/register", async (req, res) => {
 
   try {
     if (resultCheck.rows.length > 0) {
-      res.send("Username Already taken")
+      return res.render("Register.ejs", {userTaken: true})
+      // return res.status(409).json({ message: "Username already taken" }); // 409 Conflict
     } else {
       bcrypt.hash(password, saltRounds, async (err, hash) => {
         if (err) {
