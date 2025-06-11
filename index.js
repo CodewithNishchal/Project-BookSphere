@@ -9,6 +9,8 @@ import GoogleStrategy from "passport-google-oauth2"
 import GitHubStrategy from "passport-github2"
 import FacebookStrategy from "passport-facebook"
 import dotenv from "dotenv"
+import jwt from 'jsonwebtoken';
+import cookieParser from "cookie-parser"
 
 const app = express()
 const port = 3000
@@ -18,7 +20,7 @@ dotenv.config();
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static("public"))
 app.use(session({
-  secret: "BookLogsPersonal",
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -28,6 +30,7 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session())
+app.use(cookieParser())
 
 const db = new pg.Client({
   user: process.env.PG_USER,
@@ -69,10 +72,17 @@ app.get(
   })
 )
 
-app.get("/auth/github/testing", passport.authenticate("github", {
-  successRedirect: "/",
-    failureRedirect: "/login",
-}))
+app.get(
+  "/auth/github/testing",
+  passport.authenticate("github", { failureRedirect: "/login" }), // First, authenticate
+  (req, res) => { // Then, handle the response
+    console.log(req.user);
+    const token = jwt.sign({ id: req.user.id }, process.env.SESSION_SECRET);
+    res.cookie("token", token);
+    res.redirect("/");
+  }
+);
+
 
 app.get(
   "/auth/facebook",
@@ -81,21 +91,67 @@ app.get(
   })
 )
 
-app.get("/auth/facebook/testing", passport.authenticate("facebook", {
-  successRedirect: "/",
-    failureRedirect: "/login",
-}))
+app.get("/auth/facebook/testing", 
+  passport.authenticate("facebook", { failureRedirect: "/login" }), 
+    (req, res) => {
+      console.log(req.user)
+      const token = jwt.sign({ id: req.user.id }, process.env.SESSION_SECRET)
+      res.cookie("token", token)
+      res.redirect("/");
+    }
+  )
 
-app.post("/login", passport.authenticate("local", {
-  successRedirect: "/",
-  failureRedirect: "/login",
-}))
+app.get("/testing", (req, res) => {
+  try {
+  const data = jwt.verify(req.cookies.token, process.env.SESSION_SECRET)
+  console.log(data)
+  if(data.id)
+    res.send(data.id.toString())
+  else
+    res.render("home.ejs")
+  }
+  catch (err) {
+    console.log(err)
+    res.redirect("/login")
+  }
+})
+
+app.get("/logout", (req, res) => {
+  req.logout((err) => {
+    if (err)
+      return next(err)
+    res.clearCookie("token") //remove JWT Token
+    req.session.destroy(() => {
+      res.redirect("/login");
+    })
+  })
+})
+
+app.post("/login", (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+      if (err) {
+          return next(err); // Handle server errors
+      }
+      if (!user) {
+          return res.redirect("/login"); // Redirect on failure
+      }
+      
+      req.logIn(user, (err) => {
+          if (err) {
+              return next(err);
+          }
+        console.log(req.user);
+        const token = jwt.sign({ id: req.user.id }, process.env.SESSION_SECRET)
+        res.cookie("token", token)
+        return res.redirect("/"); // Redirect on success
+      });
+  })(req, res, next);
+})
 
 passport.use(new Strategy(async function verify(username, password, cb) {
   try {
     const result = await db.query("select * from sphere where email = $1", [username])
     if (result.rows.length > 0) {
-      console.log(result)
       const user = result.rows[0];
       const pass = user.password
 
@@ -122,7 +178,6 @@ app.post("/register", async (req, res) => {
   const password = req.body.password
 
   const resultCheck = await db.query("select * from sphere where email = $1", [email])
-  console.log(password)
 
   try {
     if (resultCheck.rows.length > 0) {
@@ -133,12 +188,15 @@ app.post("/register", async (req, res) => {
           console.error("Error Hashing pass: ",err)
         } else {
           console.log("Hashed Password: ", hash)
-          const result = await db.query("insert into sphere (email, password) values($1, $2)"
+          const result = await db.query("insert into sphere (email, password) values($1, $2) returning *"
             , [email, hash]
           )
           const user = result.rows[0]
           req.login(user, (err) => {
             console.log(err)
+            console.log(user);
+            const token = jwt.sign({ id: user.id }, process.env.SESSION_SECRET)
+            res.cookie("token", token)
             res.redirect("/")
           })
         }
@@ -181,6 +239,7 @@ passport.use("github",
     // callback function which gets triggered when a user succeeds in login
     //refreshToken just helps the remain signed in as we go along 
     try {
+      console.log(profile)
       const email = profile._json.login
       if (!email) return cb(new Error("No email found in Facebook profile"))
 
@@ -189,7 +248,6 @@ passport.use("github",
 
       if (result.rows.length === 0) {
         const newUser = await db.query("insert into sphere (email, password) values ($1, $2)  returning *", [email, "GitHub"])
-        console.log(newUser)
         return cb(null, newUser.rows[0]) // we add newUser so that when we serialize and deserialize the user we can then access it in the same location when we goto the secrets
       } else {
         return cb(null, result.rows[0]) // Never forget to return cb 
@@ -218,6 +276,7 @@ passport.use("facebook",
 
       if (result.rows.length === 0) {
         const newUser = await db.query("insert into sphere (email, password) values ($1, $2) returning *", [email, "facebook"])
+        console.log(newUser)
         return cb(null, newUser.rows[0]) // we add newUser so that when we serialize and deserialize the user we can then access it in the same location when we goto the secrets
       } else {
         return cb(null, result.rows[0]) // Never forget to return cb 
